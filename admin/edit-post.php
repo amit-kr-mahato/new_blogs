@@ -20,19 +20,20 @@ if (isset($_POST['submit'])) {
     $status = $_POST['status'];
     $image = $_FILES["image"];
     
-    // Handle image upload
-    $fileDestination = $total['image']; // Default to current image
-    if ($image['name']) { // Check if a new image is uploaded
+  
+    if ($image['name']) { 
+        $imageName = time() . "_" . basename($image['name']);
         $upload_folder_path = "images/post/";
-        $imageName = $image['name'];
-        $fileExt = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
-        $fileNewName = uniqid('', true) . "-" . $imageName;
-        $fileDestination = $upload_folder_path . basename($fileNewName);
-        move_uploaded_file($image['tmp_name'], $fileDestination);
-    }
+        $target_file =  $upload_folder_path . $imageName;
+       
+       if(move_uploaded_file($image['tmp_name'], $target_file)){
 
-    // Update the post
-    $queryUpdate = "UPDATE posts SET title='$title', image='$fileNewName', description='$description', status='$status' WHERE id='$id'";
+        if (file_exists( $upload_folder_path .$total['image'])) {
+            unlink($target_dir . $total['image']);
+        }
+
+        // Update the post
+    $queryUpdate = "UPDATE posts SET title='$title', image=' $imageName', description='$description', status='$status' WHERE id='$id'";
     $resultUpdate = mysqli_query($conn, $queryUpdate);
     
     if ($resultUpdate) {
@@ -44,7 +45,18 @@ if (isset($_POST['submit'])) {
         $message = "Error updating post: " . mysqli_error($conn);
         $messageType = "danger";
     }
+
+
+       }else{
+        $message = "Error uploading image.";
+            $messageType = "danger";
+       }
+   
+    }
+  
 }
+
+$conn->close();
 ?>
 
 

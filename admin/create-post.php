@@ -23,6 +23,8 @@ if (isset($_POST['submit'])) {
     $fileDestination = $upload_folder_path . basename($fileNewName);
     move_uploaded_file($image['tmp_name'], $fileDestination);
 
+    
+
     $description = $_POST['description'];
     $categories = $_POST['category'];
     $status = $_POST['status']; 
