@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
     $title = $_POST['title'];
    // $image = $_POST['image'];
     $image = $_FILES["image"];
-    $upload_folder_path = "images/posts/";
+    $upload_folder_path = "images/post/";
     $imageName = $image['name'];
     $fileExt = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
     $fileNewName = uniqid('', true) . "." . $fileExt;
