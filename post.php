@@ -1,6 +1,6 @@
-
 <?php
 include 'configure.php';
+session_start();
 
 $query = "SELECT * FROM posts";
 $result = mysqli_query($conn, $query);
@@ -73,7 +73,7 @@ while ($data = mysqli_fetch_assoc($result)) {
         <h4><?= $data['title'] ?></h4>
         <div class="content d-flex">
           <p class="text-info">Author</p>
-          <p class="ms-2 me-2 text-primary"></p>
+          <p class="ms-2 me-2 text-primary">| Categories</p>
           <p>| <?php date_default_timezone_set("Asia/Kathmandu");
            echo date("h:ia")?></p>
         </div>

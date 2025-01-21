@@ -5,7 +5,9 @@ $query = "SELECT * FROM posts";
 $result = mysqli_query($conn, $query);
 $posts = mysqli_num_rows($result);
 
-
+$query1 = "SELECT * FROM createcategories";
+$result1 = mysqli_query($conn, $query1);
+$category = mysqli_num_rows($result1);
 ?>
 
 <!DOCTYPE html>
@@ -93,14 +95,18 @@ $posts = mysqli_num_rows($result);
       <a href="#" class="fs-3">more ➡</a>
     </div>
     <div class="row">
+    <?php if ($category != 0) {
+
+while ($total = mysqli_fetch_assoc($result1)) {
+?>
       <div class="col-lg-8">
         <div class="card">
           <img
-            src="https://www.photographyblog.com/imager/entryimages/127955/canon_rf_70_200mm_f2_8l_is_usm_z_review_103c90e1ec5d69b15d400760b3c86bfb.webp"
+            src="<?= $total['image'] ?>"
             class="card-img-top"
             alt="..." />
           <div class="card-body">
-            <h3 class="card-title">Canon RF 70-200mm F2.8L IS USM Z</h5>
+            <h3 class="card-title"><?= $total['title'] ?></h5>
               <p class="card-text">
                 The Canon RF 70-200mm F2.8L IS USM Z lens is a fast telephoto zoom lens for Canon EOS R full-frame mirrorless cameras.
                 This is the latest model in a new generation of hybrid lenses for both photo and video, with Canon saying that there will be plenty of similar cross-over products to come in the future.
@@ -110,35 +116,9 @@ $posts = mysqli_num_rows($result);
           </div>
         </div>
       </div>
-      <div class="col-lg-4">
-        <div class="card">
-          <img
-            src="https://www.photographyblog.com/imager/entryimages/5299/canon_imageprograf_pro_1000_review_8c9cd6ffa9b02044a7a3327bc82c5649.jpg"
-            class="card-img-top" style="height: 200px;"
-            alt="..." />
-          <div class="card-body">
-            <h3 class="card-title">Canon imagePROGRAF PRO-1000</h5>
-              <p class="card-text">
-                With so much sharing of photos on social media web sites and the growing popularity of video capture, printing and printers seem to have taken a back seat at this time. For the professional and dedicated amateur photographer, producing photographic quality prints is just as important as shooting with a high quality camera.
-
-
-              </p>
-          </div>
-        </div>
-
-        <div class="card mt-3">
-          <img
-            src="https://www.photographyblog.com/imager/entryimages/5432/cyberlink_photodirector_8_ultra_review_8c9cd6ffa9b02044a7a3327bc82c5649.jpg"
-            class="card-img-top"
-            alt="..." />
-          <div class="card-body">
-            <h3 class="card-title">Cyberlink PhotoDirector 8 Ultra</h5>
-              <p class="card-text">
-                November 21, 2016 | Amy Davies | Software Reviews |Latest ReviewsCameraLensesIntroductionPhotoDirector 8 Ultra is a new photo-editing software from Cyberlink, which offers the ability to work with layers, filters, effects and so on. It is compatible with both Windows and Mac, and is also capable of reading a wide variety of proprietary raw formats. There are also over 100 lens profiles to provide correction options. You can download the software for £79.99, with the possibility to try a fully-functioning free trial for 30 days before committing to buy.
-              </p>
-          </div>
-        </div>
-      </div>
+     
+      <?php }
+      } ?>
     </div>
   </div>
 
