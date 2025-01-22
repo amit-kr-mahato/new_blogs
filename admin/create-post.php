@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $categories = $_POST['category'];
-    $status = $_POST['status']; 
+    $status = $_POST['status'];
     $image = $_FILES["image"];
 
     // Validate form fields
@@ -35,20 +35,17 @@ if (isset($_POST['submit'])) {
             // Prepare SQL statement
             $sqli = "INSERT INTO posts (title, image, description, category_id, status) VALUES ('$title', '$imageName','$description' ,'$categories','$status')";
             $result = mysqli_query($conn, $sqli);
-            
+
             // Execute the statement
             if ($result) {
-
                 $_SESSION['message'] = "<h5 class='text-center'>Post added successfully</h5>";
                 $_SESSION['messageType'] = "success";
                 header("Location: create-post.php");
                 exit;
             } else {
-                $message = "Error: " . $stmt->error;
+                $message = "Error: ";
                 $messageType = "danger";
             }
-
-            $conn->close();
         } else {
             $message = "Error uploading image.";
             $messageType = "danger";
@@ -75,11 +72,11 @@ $total = mysqli_num_rows($result);
 
 <body style="background-color: #12473d;">
 
-    <div class="container my-5">
+    <div class="container my-4">
         <div class="row">
             <div class="col-lg-3">
                 <?php include 'layouts/sidebar.php'; ?>
-            </div>
+          
             <div class="col-lg-9">
                 <div class="d-flex justify-content-between align-items-center">
                     <h2 class="text-light">Create Post</h2>
@@ -150,5 +147,6 @@ $total = mysqli_num_rows($result);
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </body>
+</body>
+
 </html>

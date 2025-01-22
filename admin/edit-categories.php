@@ -8,41 +8,57 @@ $query = mysqli_query($conn, $select);
 $row = mysqli_fetch_array($query);
 
 
+if (isset($_POST['submit'])) {
+    $title = $_POST['title'];
+    $image = $_FILES["image"];
 
-?>
+    if ($image['name']) {
+        $imageName = time() . "_" . basename($image['name']);
+        $upload_folder_path = "images/categories/";
+        $target_file =  $upload_folder_path . $imageName;
 
-<?php
-       
+        if (move_uploaded_file($image['tmp_name'], $target_file)) {
+            // Delete old image
+            if (file_exists($upload_folder_path . $row['image'])) {
+                unlink($upload_folder_path . $row['image']);
+            }
 
-        if (isset($_POST['submit'])) {
-            $title = $_POST['title'];
-            $image = $_FILES["image"];
-            $upload_folder_path = "images/categories/";
-            $imageName = $image['name'];
-            $fileExt = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
-            // var_dump($fileExt);
-            $fileNewName = uniqid('', true) . "-" . $imageName;
-            $fileDestination = $upload_folder_path . basename($fileNewName);
-            move_uploaded_file($image['tmp_name'], $fileDestination);
+            // Update the post
+            $queryUpdate = "UPDATE createcategories SET title='$title', image='$imageName' WHERE id='$id'";
+            $resultUpdate = mysqli_query($conn, $queryUpdate);
 
-
-            $query = "UPDATE createcategories SET title='$title', image='$fileNewName' WHERE id='$id'";
-            $result = mysqli_query($conn, $query);
-            if ($result) {
-                $message = "categories updated successfully";
+            if ($resultUpdate) {
+                $message = "Post updated successfully";
                 $messageType = "success";
                 header("Location: categories.php");
+                exit();
             } else {
-                $message = "Error updating";
+                $message = "Error updating post: " . mysqli_error($conn);
                 $messageType = "danger";
             }
+        } else {
+            $message = "Error uploading image.";
+            $messageType = "danger";
         }
+    } else {
+        // If no new image is uploaded, just update other fields
+        $queryUpdate = "UPDATE createcategories SET title='$title' WHERE id='$id'";
+        $resultUpdate = mysqli_query($conn, $queryUpdate);
+
+        if ($resultUpdate) {
+            $message = "Post updated successfully";
+            $messageType = "success";
+            header("Location: categories.php");
+            exit();
+        } else {
+            $message = "Error updating post: " . mysqli_error($conn);
+            $messageType = "danger";
+        }
+    }
+}
 
 
-
-
-
-        ?>
+?>
 
 
 
@@ -65,6 +81,7 @@ $row = mysqli_fetch_array($query);
                 <?php
                 include 'layouts/sidebar.php';
                 ?>
+         
                 <div class="col-lg-9">
                     <div class="d-flex justify-content-between align-items-center">
                         <h2 class="text-light">Create categories</h2>
@@ -108,9 +125,10 @@ $row = mysqli_fetch_array($query);
                     </div>
                 </div>
             </div>
-        </div>
+        
+ 
 
-      
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 

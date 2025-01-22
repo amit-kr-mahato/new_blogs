@@ -14,40 +14,41 @@ if (isset($_SESSION['message'])) {
 if (isset($_POST['submit'])) {
     $title = $_POST['title'];
     $image = $_FILES["image"];
-    $upload_folder_path = "images/categories/";
-    $imageName = $image['name'];
-    $fileExt = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
-    $fileNewName = uniqid('', true) . "." . $fileExt;
-    $fileDestination = $upload_folder_path . basename($fileNewName);
-    move_uploaded_file($image['tmp_name'], $fileDestination);
-    // image upload end
-    // if (!in_array($fileExt, $allowedExts)) {
-    //     $message = "Invalid file type";
-    //     $messageType = "danger";
-    // } else {
-        
-    //     $fileNewName = uniqid('', true) . "." . $fileExt;
-    //     $fileDestination = $upload_folder_path . basename($fileNewName);
-    // }
-
+   
     if (empty($title)) {
         $message = 'Please enter the title';
         $messageType = 'danger';
     } else {
-        $sql = "INSERT INTO createcategories (title, image) VALUES ('$title', '$fileNewName')";
 
-        if ($conn->query($sql) === TRUE) {
-            session_start();
-            $_SESSION['message'] = "<h5 class='text-center'> add successful </h5>";
+        $imageName = time() . "_" . basename($image['name']);
+        $upload_folder_path = "images/categories/";
+        $target_file =  $upload_folder_path . $imageName;
+
+        if(move_uploaded_file($image['tmp_name'], $imageName)){
+            $sql = "INSERT INTO createcategories (title, image) VALUES ('$title', '$imageName')";
+            $result = mysqli_query($conn, $sql);
+
+
+        if ($result) {
+            $_SESSION['message'] = "<h5 class='text-center'> added successfully</h5>";
             $_SESSION['messageType'] = "success";
             header("Location: categories.php");
             exit;
         } else {
-            $message = "Error: " . $conn->error;
+            $message = "Error: ";
             $messageType = "danger";
         }
+
+    } else {
+        $message = "Error uploading image.";
+        $messageType = "danger";
     }
+
 }
+
+    
+}
+
 ?>
 
 

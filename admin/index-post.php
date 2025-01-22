@@ -38,14 +38,14 @@ $total = mysqli_num_rows($result);
               <i class="bi bi-plus"></i> Add New
             </a>
           </div>
-          
+
           <div class="table-responsive mt-4">
             <table class="table table-bordered">
-            <?php if (!empty($message)): ?>
-            <div class="alert alert-<?= $messageType ?>" role="alert">
-              <?= $message ?>
-            </div>
-          <?php endif; ?>
+              <?php if (!empty($message)): ?>
+                <div class="alert alert-<?= $messageType ?>" role="alert">
+                  <?= $message ?>
+                </div>
+              <?php endif; ?>
               <thead>
                 <tr>
                   <th scope="col">S.N</th>
@@ -64,7 +64,7 @@ $total = mysqli_num_rows($result);
                          <tr>
                             <td>" . $data['id'] . "</td>
                             <td>" . $data['title'] . "</td>
-                            <td><img width=80 height=80 src=".'images/post/' . $data['image'] . "></td>
+                            <td><img width=80 height=80 src='images/post/" . $data['image'] . "'></td>
                             <td>" . $data['description'] . "</td>
                             <td>" . $data['date'] . "</td>
                             <td>
@@ -76,14 +76,11 @@ $total = mysqli_num_rows($result);
                             </a>
                             </td>
                             </tr>";
-                          }
-                          } else {
-                           
-                                         $message="Table is empty";
-                                         $messageType="danger";
-                                      
-                                   
-                                   
+                  }
+                } else {
+
+                  $message = "Table is empty";
+                  $messageType = "danger";
                 }
                 ?>
               </tbody>
