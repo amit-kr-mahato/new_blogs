@@ -2,7 +2,16 @@
 require('../configure.php');
 session_start();
 
-$query = "SELECT * FROM posts";
+$limit = 5;
+if(isset($_GET['page'])){
+  $page =$_GET['page'];
+
+}else{
+  $page = 1;
+}
+$offset=($page-1)*$limit;
+
+$query = "SELECT * FROM posts limit{$offset},{$limit}";
 $result = mysqli_query($conn, $query);
 $total = mysqli_num_rows($result);
 
@@ -19,6 +28,7 @@ $total = mysqli_num_rows($result);
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Posts - Admin</title>
+  <link rel="stylesheet" href="style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -85,6 +95,37 @@ $total = mysqli_num_rows($result);
                 ?>
               </tbody>
             </table>
+
+            <!-- pagination -->
+
+            <?php
+
+
+          $pagination = "SELECT * FROM posts";
+          $result = mysqli_query($conn, $pagination);
+          if(mysqli_num_rows($result)>0){
+            $total = mysqli_num_rows($result);
+           
+            $pages = ceil($total/$limit);
+
+
+         
+            ?>
+
+            <div class="pagination">
+              <?php if($page>1){ ?>
+             <a href="index-post.php?page=<?php echo $page-1;?>">previous</a>
+             <?php } ?>
+             <?php for($i=1;$i<=$pages;$i++){ ?>
+             <a href="index-post.php?page=<?php echo $i;?>"><?php echo $i; ?></a>
+            <?php } ?>
+
+            <?php if($page< $pages){ ?>
+            <a href="index-post.php?page=<?php echo $page+1;?>">next</a>
+            <?php } ?>
+            </div>
+         <?php }?>
+
           </div>
         </div>
       </div>

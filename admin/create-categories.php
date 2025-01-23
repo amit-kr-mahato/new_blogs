@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
         $upload_folder_path = "images/categories/";
         $target_file =  $upload_folder_path . $imageName;
 
-        if(move_uploaded_file($image['tmp_name'], $imageName)){
+        if(move_uploaded_file($image['tmp_name'], $target_file)){
             $sql = "INSERT INTO createcategories (title, image) VALUES ('$title', '$imageName')";
             $result = mysqli_query($conn, $sql);
 

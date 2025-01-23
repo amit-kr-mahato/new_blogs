@@ -31,3 +31,23 @@
     width: 150px;
     margin: 5px auto;
 }
+
+.pagination {
+    display: inline-block;
+    background:red;
+   
+  }
+  
+  .pagination a {
+    color: black;
+    margin-inline-end: auto;
+    float: left;
+    padding: 10px 6px;
+    text-decoration: none;
+  }
+
+  .pagination a:hover{
+    background:black;
+    color:white;
+    border-radius:2px;
+    }

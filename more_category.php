@@ -1,11 +1,7 @@
 <?php
 include 'configure.php';
 
-$query = "SELECT * FROM posts LIMIT 3";
-$result = mysqli_query($conn, $query);
-$posts = mysqli_num_rows($result);
-
-$query1 = "SELECT * FROM createcategories LIMIT 5";
+$query1 = "SELECT * FROM createcategories";
 $result1 = mysqli_query($conn, $query1);
 $category = mysqli_num_rows($result1);
 ?>
@@ -64,36 +60,6 @@ $category = mysqli_num_rows($result1);
     </div>
   </nav>
   <div class="container ">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1 class="mt-5 mb-4">Featured Post</h1>
-      <a href="more_post.php" class="fs-3">more ➡</a>
-    </div>
-    <div class="row">
-      <?php if ($posts != 0) {
-
-        while ($data = mysqli_fetch_assoc($result)) {
-      ?>
-          <div class="col-lg-4">
-            <div class="card mt-4">
-              <img
-                src="admin/images/post/<?= $data['image'] ?>"
-                class="card-img-top"
-                alt="..." />
-              <div class="card-body">
-                <h3 class="card-title"><a href="post.php?id=<?= $data['id'] ?>"><?= $data['title'] ?></a></h3>
-                  <p class="card-text">
-                    Sony have just launched their new flagship mirrorless camera, the A1 II, a 50 megapixel, 8K video, 30fps burst shooting model that's designed to be the ultimate all-rounder. Is it a worthy replacement for the original Alpha 1 and can it challenge the likes of the Nikon Z8 and Canon EOS R5 Mark II? Find out by reading our Sony A1 II review so far, complete with full-size sample photos and videos.
-                  </p>
-              </div>
-            </div>
-          </div>
-      <?php }
-      } ?>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-      <h1 class="mt-5 mb-4">Categories</h1>
-      <a href="more_category.php" class="fs-3">more ➡</a>
-    </div>
     <div class="row ">
     <?php if ($category != 0) {
 

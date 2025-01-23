@@ -3,7 +3,7 @@ include 'configure.php';
 session_start();
 
 $post_id = $_GET['id'];
-$join = "SELECT posts.*, createcategories.title FROM posts 
+$join = "SELECT posts.*, createcategories.title as cat FROM posts 
           LEFT JOIN createcategories ON posts.category_id = createcategories.id 
           WHERE posts.id='$post_id'";
 

@@ -1,13 +1,9 @@
 <?php
 include 'configure.php';
 
-$query = "SELECT * FROM posts LIMIT 3";
+$query = "SELECT * FROM posts";
 $result = mysqli_query($conn, $query);
 $posts = mysqli_num_rows($result);
-
-$query1 = "SELECT * FROM createcategories LIMIT 5";
-$result1 = mysqli_query($conn, $query1);
-$category = mysqli_num_rows($result1);
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +12,7 @@ $category = mysqli_num_rows($result1);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blogs website</title>
+  <title>more_post</title>
   <link rel="stylesheet" href="style.css">
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -64,17 +60,13 @@ $category = mysqli_num_rows($result1);
     </div>
   </nav>
   <div class="container ">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1 class="mt-5 mb-4">Featured Post</h1>
-      <a href="more_post.php" class="fs-3">more ➡</a>
-    </div>
     <div class="row">
       <?php if ($posts != 0) {
 
         while ($data = mysqli_fetch_assoc($result)) {
       ?>
           <div class="col-lg-4">
-            <div class="card mt-4">
+            <div class="card mt-4 mb-4">
               <img
                 src="admin/images/post/<?= $data['image'] ?>"
                 class="card-img-top"
@@ -90,30 +82,7 @@ $category = mysqli_num_rows($result1);
       <?php }
       } ?>
     </div>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-      <h1 class="mt-5 mb-4">Categories</h1>
-      <a href="more_category.php" class="fs-3">more ➡</a>
-    </div>
-    <div class="row ">
-    <?php if ($category != 0) {
-
-while ($total = mysqli_fetch_assoc($result1)) {
-?>
-      <div class="col-lg-2 mt-4 mb-4">
-        <div class="card">
-          <img
-            src="admin/images/categories/<?= $total['image'] ?>"
-            class="card-img-top"
-            alt="..." />
-          <div class="card-body">
-            <h5 class="card-title"><?= $total['title'] ?></h5>
-          </div>
-        </div>
-      </div>
-     
-      <?php }
-      } ?>
-    </div>
+    
   </div>
 
   <section class="bg-dark  py-5">
@@ -139,7 +108,6 @@ while ($total = mysqli_fetch_assoc($result1)) {
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-   
 </body>
 
 </html>
